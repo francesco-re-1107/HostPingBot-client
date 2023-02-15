@@ -1,22 +1,15 @@
 import requests
 import time
 import os
-import logging
+from utils import to_int, get_logger
+
+LOGGER = get_logger()
 
 BASE_URL = "https://hostpingbot.francescore.dev/update/"
 TOKEN = os.environ.get("TOKEN")
-TIMEOUT = os.environ.get("TIMEOUT", 10)
-INTERVAL = os.environ.get("INTERVAL", 60)
-RETRY_AFTER = os.environ.get("RETRY_AFTER", 10)
-
-# Setup logger
-LOGGER = logging.getLogger("hostpingbot-client")
-LOGGER.setLevel(logging.INFO)
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-ch.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(message)s'))
-LOGGER.addHandler(ch)
-
+TIMEOUT = to_int(os.environ.get("TIMEOUT", 10)) or 10
+INTERVAL = to_int(os.environ.get("INTERVAL", 60)) or 60
+RETRY_AFTER = to_int(os.environ.get("RETRY_AFTER", 10)) or 10
 
 def main():
     if TOKEN is None:
@@ -24,9 +17,9 @@ def main():
         raise Exception("TOKEN environment variable not set")
 
     LOGGER.info("Starting hearbeat with the following parameters:")
-    LOGGER.info(f"TOKEN: {TOKEN} seconds")
-    LOGGER.info(f"TIMEOUT: {TIMEOUT} seconds")
+    LOGGER.info(f"TOKEN: {TOKEN}")
     LOGGER.info(f"INTERVAL: {INTERVAL} seconds")
+    LOGGER.info(f"TIMEOUT: {TIMEOUT} seconds")
     LOGGER.info(f"RETRY_AFTER: {RETRY_AFTER} seconds")
 
     while True:
