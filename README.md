@@ -5,15 +5,13 @@ This is a simple client for **Push** watchdogs in [HostPingBot](https://github.c
 ## Run with Docker
  
 ```bash
-docker pull hostpingbotclient
-
 docker run -d --restart unless-stopped \
  -e TOKEN=your_token \
  -e INTERVAL=60 \
  -e TIMEOUT=10 \
  -e RETRY_AFTER=10 \
  --name hpb-client \
- hostpingbotclient
+ francescore1107/hostpingbotclient
 ```
 
 ## Parameters
